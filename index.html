@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Community Chat</title>
+  <meta charset="utf-8">
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+  <h1>Community Chat</h1>
+
+  <input type="text" id="username" placeholder="Enter your username">
+  <button id="join-chat">Join Chat</button>
+
+  <div id="chat-messages"></div>
+
+  <input type="text" id="message" placeholder="Enter your message">
+  <button id="send-message">Send Message</button>
+
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "YOUR_DATABASE_URL",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Get the Firestore database
+    const db = firebase.firestore();
+
+    // Create a reference to the chat messages collection
+    const chatMessagesRef = db.collection("chat-messages");
+
+    // Listen for new chat messages
+    chatMessagesRef.onSnapshot((snapshot) => {
+      // Get the new chat messages
+      const newChatMessages = snapshot.docs;
+
+      // Update the chat messages element with the new chat messages
+      const chatMessagesElement = document.getElementById("chat-messages");
+      chatMessagesElement.innerHTML = "";
+
+      for (const newChatMessage of newChatMessages) {
+        // Create a new chat message element
+        const chatMessageElement = document.createElement("div");
+        chatMessageElement.classList.add("chat-message");
+
+        // Set the chat message element's text
+        chatMessageElement.textContent = `${newChatMessage.data().username}: ${newChatMessage.data().message}`;
+
+        // Add the chat message element to the chat messages element
+        chatMessagesElement.appendChild(chatMessageElement);
+      }
+    });
+
+    // Join the chat
+    document.getElementById("join-chat").addEventListener("click", () => {
+      const username = document.getElementById("username").value;
+
+      // Create a new chat message
+      const chatMessage = {
+        username,
+        message: "Joined the chat!"
+      };
+
+      // Send the chat message to the Firestore database
+      chatMessagesRef.add(chatMessage);
+    });
+
+    // Send a message
+    document.getElementById("send-message").addEventListener("click", () => {
+      const message = document.getElementById("message").value;
+
+      // Create a new chat message
+      const chatMessage = {
+        username: document.getElementById("username").value,
+        message
+      };
+
+      // Send the chat message to the Firestore database
+      chatMessagesRef.add(chatMessage);
+
+      // Clear the message input
+      document.getElementById("message").value = "";
+    });
+  </script>
+</body>
+</html>
