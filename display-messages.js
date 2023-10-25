@@ -1,43 +1,31 @@
 const chatMessagesElement = document.getElementById("chat-messages");
 
+// Create an array to store the chat messages
+const chatMessages = [];
 
-
-
-
-
-
-
+// Listen for new chat messages
 chatMessagesRef.onSnapshot((snapshot) => {
   // Get the new chat messages
   const newChatMessages = snapshot.docs;
 
-  // Sort the new chat messages by timestamp in ascending order
-  newChatMessages.sort((a, b) => a.data().timestamp - b.data().timestamp);
+  // Add the new chat messages to the chat messages array
+  chatMessages.push(...newChatMessages);
 
-  // Update the chat messages element with the new chat messages
+  // Update the chat messages element with the chat messages array
   chatMessagesElement.innerHTML = "";
 
-  for (const newChatMessage of newChatMessages) {
+  for (const message of chatMessages) {
     // Create a new chat message element
     const chatMessageElement = document.createElement("div");
     chatMessageElement.classList.add("chat-message");
 
     // Set the chat message element's text
-    chatMessageElement.textContent = `${newChatMessage.data().username}: ${newChatMessage.data().message}`;
+    chatMessageElement.textContent = `${message.data().username}: ${message.data().message}`;
 
     // Add the chat message element to the chat messages element
     chatMessagesElement.appendChild(chatMessageElement);
   }
 });
-
-
-
-
-
-
-
-
-
 
 
 
