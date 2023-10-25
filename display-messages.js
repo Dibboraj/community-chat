@@ -10,10 +10,13 @@ chatMessagesRef.onSnapshot((snapshot) => {
 
   // Add the new chat messages to the chat messages array
   chatMessages.push(...newChatMessages);
+});
 
-  // Update the chat messages element with the chat messages array
+function displayMessages() {
+  // Clear the chat messages element
   chatMessagesElement.innerHTML = "";
 
+  // Add the chat messages from the array to the chat messages element
   for (const message of chatMessages) {
     // Create a new chat message element
     const chatMessageElement = document.createElement("div");
@@ -25,33 +28,9 @@ chatMessagesRef.onSnapshot((snapshot) => {
     // Add the chat message element to the chat messages element
     chatMessagesElement.appendChild(chatMessageElement);
   }
-});
 
-
-
-
-function displayMessages() {
-  // Get the chat messages document
-  const chatMessagesRef = db.collection("chat-messages").doc("all-messages");
-
-  // Get the messages from the chat messages document
-  chatMessagesRef.get().then((doc) => {
-    const messages = doc.data().messages;
-
-    chatMessagesElement.innerHTML = "";
-
-    for (const message of messages) {
-      // Create a new chat message element
-      const chatMessageElement = document.createElement("div");
-      chatMessageElement.classList.add("chat-message");
-
-      // Set the chat message element's text
-      chatMessageElement.textContent = `${message.username}: ${message.message}`;
-
-      // Add the chat message element to the chat messages element
-      chatMessagesElement.appendChild(chatMessageElement);
-    }
-  });
+  // Scroll to the bottom of the chat messages element
+  chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
 }
 
 // Display the messages when the page loads
@@ -64,6 +43,7 @@ chatMessagesRef.onSnapshot(displayMessages);
 document.getElementById("join-chat").addEventListener("click", () => {
   // ...
 
+  // Display the messages
   displayMessages();
 });
 
@@ -71,5 +51,6 @@ document.getElementById("join-chat").addEventListener("click", () => {
 document.getElementById("send-message").addEventListener("click", () => {
   // ...
 
+  // Display the messages
   displayMessages();
 });
