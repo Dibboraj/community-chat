@@ -6,6 +6,11 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 </head>
+  <style>
+    #chat-messages {
+  position: fixed;
+  bottom: 0;
+}</style>
 <body>
   <h1>WEBXCHAT-D2R</h1>
   <h2>Please don't use fake names! It's a request from a noob programmer!!! Please.....</h2>
@@ -97,6 +102,12 @@
 
       // Clear the message input
       document.getElementById("message").value = "";
+
+      window.addEventListener("scroll", () => {
+  const chatMessagesElement = document.getElementById("chat-messages");
+  chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
+});
+      
     });
   </script>
 </body>
