@@ -41,15 +41,10 @@
 
 
  .chat-message {
-
-  font-size: 20px;
-
+  font-size: 100px;
   background-color: #eee;
-
   padding: 10px;
-
   margin-bottom: 20px;
-
  }
 
 
@@ -103,69 +98,36 @@
  apiKey: "AIzaSyAeDub4lzMIfUxLlIHosFdKtT3T8n5hwT8",
 
  authDomain: "d2r-chat.firebaseapp.com",
-
  databaseURL: "https://d2r-chat-default-rtdb.firebaseio.com",
-
  projectId: "d2r-chat",
-
  storageBucket: "d2r-chat.appspot.com",
-
  messagingSenderId: "206966326191",
-
  appId: "1:206966326191:web:06472961563a70f099655a",
-
  measurementId: "G-HXZ5MDL0T5"
-
  };
-
 
 
  firebase.initializeApp(firebaseConfig);
 
-
-
  // Get the Firestore database
-
  const db = firebase.firestore();
 
-
-
  // Create a reference to the chat messages collection
-
  const chatMessagesRef = db.collection("chat-messages");
 
-
-
  // Listen for new chat messages
-
  chatMessagesRef.onSnapshot((snapshot) => {
-
   // Get the new chat messages
-
   const newChatMessages = snapshot.docs;
-
-
-
   // Update the chat messages element with the new chat messages
-
   const chatMessagesElement = document.getElementById("chat-messages");
-
   chatMessagesElement.innerHTML = "";
-
-
-
   for (const newChatMessage of newChatMessages) {
-
   // Create a new chat message element
-
   const chatMessageElement = document.createElement("div");
-
   chatMessageElement.classList.add("chat-message");
 
-
-
   // Set the chat message element's text
-
   chatMessageElement.textContent = `${newChatMessage.data().username}: ${newChatMessage.data().message}`;
 
 
@@ -217,11 +179,8 @@
 
 
   // Create a new chat message
-
   const chatMessage = {
-
   username: document.getElementById("username").value,
-
   message
 
   };
@@ -229,7 +188,6 @@
 
 
   // Send the chat message to the Firestore database
-
   chatMessagesRef.add(chatMessage);
 
 
@@ -241,7 +199,6 @@
 
 
   window.addEventListener("scroll", () => {
-
  const chatMessagesElement = document.getElementById("chat-messages");
 
  chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
