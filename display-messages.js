@@ -62,4 +62,3 @@ document.getElementById("send-message").addEventListener("click", () => {
   // Display the messages
   displayMessages();
 });
-
