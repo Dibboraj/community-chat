@@ -16,6 +16,20 @@
 
  <style>
 
+  #send-message {
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.5s ease;
+}
+
+#send-message:hover {
+  background-color: #333;
+}
+  
+  
+
   h1 {
   text-align: center;
   margin: 0 auto;
@@ -44,9 +58,24 @@
 
   position: fixed;
   bottom: 0;
-  right: 50;
+  right: 0;
 
  }
+
+ #username {
+  position: fixed;
+  bottom: 0;
+  right: 100px;
+}
+  #join-chat {  
+   position: fixed;
+  bottom: 0;
+  right: 20px;}
+#send-message {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+}
 
  .chat-username {
   font-size: 40px;
