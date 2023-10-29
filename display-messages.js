@@ -1,19 +1,27 @@
-const chatMessagesElement = document.getElementById("chat-messages");
+// Get the Firestore database
+const db = firebase.firestore();
+
+// Get the chat messages collection
+const chatMessagesRef = db.collection("chat-messages");
+
+// Order the chat messages by created_at in descending order
+const chatMessagesQuery = chatMessagesRef.orderBy("created_at", "desc");
 
 // Create an array to store the chat messages
 const chatMessages = [];
 
 // Listen for new chat messages
-chatMessagesRef.onSnapshot((snapshot) => {
+chatMessagesQuery.onSnapshot((snapshot) => {
   // Get the new chat messages
   const newChatMessages = snapshot.docs;
 
-  // Add the new chat messages to the chat messages array
-  chatMessages.push(...newChatMessages);
+  // Add the new chat messages to the chat messages array in reverse order, so that the newest message is displayed first
+  chatMessages.unshift(...newChatMessages);
 });
 
 function displayMessages() {
   // Clear the chat messages element
+  const chatMessagesElement = document.getElementById("chat-messages");
   chatMessagesElement.innerHTML = "";
 
   // Add the chat messages from the array to the chat messages element
@@ -37,7 +45,7 @@ function displayMessages() {
 displayMessages();
 
 // Listen for new messages
-chatMessagesRef.onSnapshot(displayMessages);
+chatMessagesQuery.onSnapshot(displayMessages);
 
 // Join the chat
 document.getElementById("join-chat").addEventListener("click", () => {
@@ -54,3 +62,4 @@ document.getElementById("send-message").addEventListener("click", () => {
   // Display the messages
   displayMessages();
 });
+
