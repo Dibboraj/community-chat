@@ -14,94 +14,76 @@
 
 </head>
 
- <style>
-
-  #send-message {
-  background-color: #000;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  transition: background-color 0.5s ease;
-}
-
-#send-message:hover {
-  background-color: #333;
-}
-  
-  
-
-  h1 {
-  text-align: center;
-  margin: 0 auto;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  font-family: 'Arial', sans-serif;
-  font-style: italic;
-  font-weight: bold;
-  color: #fff;
-  background-color: #000;
-}
-
-   #join-chat {
+#send-message {
  background-color: #000;
  color: #fff;
  border-radius: 5px;
  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
  transition: background-color 0.5s ease;
+  position: fixed;
+ bottom: 0;
+ right: 20px;
+}
+
+#send-message:hover {
+ background-color: #333;
+}
+
+h1 {
+ text-align: center;
+ margin: 0 auto;
+ text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+ font-family: 'Arial', sans-serif;
+ font-style: italic;
+ font-weight: bold;
+ color: #fff;
+ background-color: #000;
+}
+
+#join-chat {
+ background-color: #000;
+ color: #fff;
+ border-radius: 5px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+ transition: background-color 0.5s ease;
+  position: fixed;
+ bottom: 0;
+ right: 100px;
 }
 
 #join-chat:hover {
  background-color: #333;
 }
 
-
- #chat-messages {
-
-  position: fixed;
-  bottom: 0;
-  right: 100px;
- 
-
+#chat-messages {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+  overflow-y: scroll;
+  height: 500px;
  }
 
- #username {
-  position: fixed;
-  bottom: 0;
-  right: 100px;
+#username {
+ position: fixed;
+ bottom: 0;
+ left: 0;
   font-weight: bold;
-}
-  #join-chat {  
-   position: fixed;
-  bottom: 0;
-  right: 20px;}
-#send-message {
-  position: fixed;
-  bottom: 0;
-  right: 20px;
-}
+ }
 
- .chat-username {
-  font-size: 40px;
-  font-weight: bold;
+.chat-username {
+ font-size: 40px;
+ font-weight: bold;
 
  }
 
 
- .chat-message {
-  font-size: 20px;
-  font-family: fantasy; 
-  background-color: #eee;
-  padding: 10px;
-  margin-bottom: 20px;
+.chat-message {
+ font-size: 20px;
+ font-family: fantasy; 
+ background-color: #eee;
+ padding: 10px;
+ margin-bottom: 20px;
  }
-
-  .button id="join-chat"{
-background-color: red;
-
-   
-  }
-
-
- </style>
 
 <body>
 
