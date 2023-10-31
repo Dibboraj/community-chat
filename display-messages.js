@@ -8,11 +8,32 @@ const chatMessages = [];
 
 // Listen for new chat messages
 chatMessagesQuery.onSnapshot((snapshot) => {
-  // Get the new chat messages
-  const newChatMessages = snapshot.docs;
+  // Get the changes that occurred since the last snapshot
+  const changes = snapshot.docChanges();
 
-  // Add the new chat messages to the chat messages array in reverse order, so that the newest message is displayed first
-  chatMessages.unshift(...newChatMessages);
+  // Loop through the changes
+  for (const change of changes) {
+    // Get the message document from the change
+    const message = change.doc;
+
+    // Check the type of the change
+    if (change.type === "added") {
+      // If a new message was added, insert it at the beginning of the chat messages array
+      chatMessages.unshift(message);
+    } else if (change.type === "modified") {
+      // If a message was modified, find its index in the chat messages array and replace it with the updated message
+      const index = chatMessages.findIndex((m) => m.id === message.id);
+      if (index !== -1) {
+        chatMessages[index] = message;
+      }
+    } else if (change.type === "removed") {
+      // If a message was removed, find its index in the chat messages array and remove it
+      const index = chatMessages.findIndex((m) => m.id === message.id);
+      if (index !== -1) {
+        chatMessages.splice(index, 1);
+      }
+    }
+  }
 
   // Display the messages
   displayMessages();
