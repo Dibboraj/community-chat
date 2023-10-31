@@ -1,7 +1,3 @@
-// Get the Firestore database
-const db = firebase.firestore();
-
-// Get the chat messages collection
 const chatMessagesRef = db.collection("chat-messages");
 
 // Order the chat messages by created_at in descending order
@@ -17,6 +13,9 @@ chatMessagesQuery.onSnapshot((snapshot) => {
 
   // Add the new chat messages to the chat messages array in reverse order, so that the newest message is displayed first
   chatMessages.unshift(...newChatMessages);
+
+  // Display the messages
+  displayMessages();
 });
 
 function displayMessages() {
@@ -43,22 +42,3 @@ function displayMessages() {
 
 // Display the messages when the page loads
 displayMessages();
-
-// Listen for new messages
-chatMessagesQuery.onSnapshot(displayMessages);
-
-// Join the chat
-document.getElementById("join-chat").addEventListener("click", () => {
-  // ...
-
-  // Display the messages
-  displayMessages();
-});
-
-// Send a message
-document.getElementById("send-message").addEventListener("click", () => {
-  // ...
-
-  // Display the messages
-  displayMessages();
-});
