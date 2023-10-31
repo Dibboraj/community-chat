@@ -49,7 +49,6 @@ displayMessages();
 
 function displayMessages() {
 // Clear the chat messages element
-const chatMessagesElement = document.getElementById("chat-messages");
 chatMessagesElement.innerHTML = "";
 
 // Add the chat messages from the array to the chat messages element
