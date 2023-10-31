@@ -41,6 +41,28 @@ switch (change.type) {
     // Do nothing if the change type is not recognized
     break;
 }
+
+
+
+
+
+
+
+  const usernameInput = document.getElementById("username");
+
+usernameInput.addEventListener("input", function() {
+  // Check if the username is in lowercase
+  if (!usernameInput.value.toLowerCase() === usernameInput.value) {
+    // Display an error message
+    alert("Username must be in lowercase");
+  }
+
+  // Check if the username contains any characters other than letters, numbers, and underscores
+  if (!/^[a-z0-9_]+$/.test(usernameInput.value)) {
+    // Display an error message
+    alert("Username can only contain letters, numbers, and underscores");
+  }
+});
 }
 
 // Display the messages
