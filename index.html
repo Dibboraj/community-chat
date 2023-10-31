@@ -163,7 +163,7 @@ h1 {
    
    
    // Set the chat message element's text
-chatMessageElement.innerHTML = `<b>{newChatMessage.data().username}</b> said - <br> ${newChatMessage.data().message}`;
+chatMessageElement.textContent = `${newChatMessage.data().username} said - <span class="math-inline">\{newChatMessage\.data\(\)\.message\}\\n\`;
 
 
 
