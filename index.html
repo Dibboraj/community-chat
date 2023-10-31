@@ -152,8 +152,12 @@ h1 {
   const chatMessageElement = document.createElement("div");
   chatMessageElement.classList.add("chat-message");
 
-  // Set the chat message element's text
-  chatMessageElement.textContent = `${newChatMessage.data().username}: ${newChatMessage.data().message}`;
+  
+   
+   
+   
+   // Set the chat message element's text
+  chatMessageElement.textContent = `${newChatMessage.data().username}:<br> ${newChatMessage.data().message}`;
 
 
 
