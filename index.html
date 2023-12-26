@@ -1,3 +1,5 @@
+profile picture
+I want to bring the chatbox and usernamebox and buttons in the right sight and I dont want to keep it in the top, I want to keep these in the bottom, Please help
 <!DOCTYPE html>
 
 <html>
@@ -14,74 +16,8 @@
 
 </head>
 
- <style>
-#send-message {
- background-color: #000;
- color: #fff;
- border-radius: 5px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
- transition: background-color 0.5s ease;
- 
-
- right: 20px;
-}
-
-#send-message:hover {
- background-color: #333;
-}
-
-h1 {
- text-align: center;
- margin: 0 auto;
- text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
- font-family: 'Arial', sans-serif;
- font-style: italic;
- font-weight: bold;
- color: #fff;
- background-color: #000;
-}
-
-#join-chat {
- background-color: #000;
- color: #fff;
- border-radius: 5px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
- transition: background-color 0.5s ease;
-  
 
 
-}
-
-#join-chat:hover {
- background-color: #333;
-}
-
-#chat-messages {
- position: fixed;
-  font-size: 16px;
-  color: #000;
-  text-align: left;
-  margin-bottom: 5px;
-  padding: 5px;
-  background-color: #ccc;
-  border-radius: 5px;
-  overflow-y: scroll;
-  height: 700px;
- }
-
-
-
-.chat-message {
- font-size: 20px;
- font-family: fantasy; 
- background-color: #eee;
- padding: 10px;
- margin-bottom: 20px;
- }
-</style>
-
-
-  
 <body>
 
  <h1>WEBXCHAT-D2R</h1>
@@ -91,18 +27,18 @@ h1 {
 
 
  <input type="text" id="username" placeholder="Enter your username">
+
  <button id="join-chat">Join Chat</button>
- <br>
-<input type="text" id="message" placeholder="Enter your message">
-<button id="send-message">Send Message</button>
+
+
 
  <div id="chat-messages"></div>
 
 
 
- 
+ <input type="text" id="message" placeholder="Enter your message">
 
- 
+ <button id="send-message">Send Message</button>
 
 <script src="display-messages.js"></script>
 
@@ -148,32 +84,26 @@ h1 {
 
  // Listen for new chat messages
  chatMessagesRef.onSnapshot((snapshot) => {
-  // Get the new chat messages
-  const newChatMessages = snapshot.docs;
-  // Update the chat messages element with the new chat messages
-  const chatMessagesElement = document.getElementById("chat-messages");
-  chatMessagesElement.innerHTML = "";
-  for (const newChatMessage of newChatMessages) {
-  // Create a new chat message element
-  const chatMessageElement = document.createElement("div");
-  chatMessageElement.classList.add("chat-message");
+ // Get the new chat messages
+ const newChatMessages = snapshot.docs;
+ // Update the chat messages element with the new chat messages
+ const chatMessagesElement = document.getElementById("chat-messages");
+ chatMessagesElement.innerHTML = "";
+ for (const newChatMessage of newChatMessages) {
+ // Create a new chat message element
+ const chatMessageElement = document.createElement("div");
+ chatMessageElement.classList.add("chat-message");
+
+ // Set the chat message element's text
+ chatMessageElement.textContent = `${newChatMessage.data().username}: ${newChatMessage.data().message}`;
 
 
 
+ // Add the chat message element to the chat messages element
 
+ chatMessagesElement.appendChild(chatMessageElement);
 
-   
-   
-   // Set the chat message element's text
-chatMessageElement.innerHTML = `${newChatMessage.data().username} said - <br> ${newChatMessage.data().message}`;
-
-
-
-  // Add the chat message element to the chat messages element
-
-  chatMessagesElement.appendChild(chatMessageElement);
-
-  }
+ }
 
  });
 
@@ -183,25 +113,25 @@ chatMessageElement.innerHTML = `${newChatMessage.data().username} said - <br> ${
 
  document.getElementById("join-chat").addEventListener("click", () => {
 
-  const username = document.getElementById("username").value;
+ const username = document.getElementById("username").value;
 
 
 
-  // Create a new chat message
+ // Create a new chat message
 
-  const chatMessage = {
+ const chatMessage = {
 
-  username,
+ username,
 
-  message: "I Just joined the chat!"
+ message: "Entered into the chat"
 
-  };
+ };
 
 
 
-  // Send the chat message to the Firestore database
+ // Send the chat message to the Firestore database
 
-  chatMessagesRef.add(chatMessage);
+ chatMessagesRef.add(chatMessage);
 
  });
 
@@ -211,38 +141,38 @@ chatMessageElement.innerHTML = `${newChatMessage.data().username} said - <br> ${
 
  document.getElementById("send-message").addEventListener("click", () => {
 
-  const message = document.getElementById("message").value;
+ const message = document.getElementById("message").value;
 
 
 
-  // Create a new chat message
-  const chatMessage = {
-  username: document.getElementById("username").value,
-  message
+ // Create a new chat message
+ const chatMessage = {
+ username: document.getElementById("username").value,
+ message
 
-  };
-
-
-
-  // Send the chat message to the Firestore database
-  chatMessagesRef.add(chatMessage);
+ };
 
 
 
-  // Clear the message input
-
-  document.getElementById("message").value = "";
-
+ // Send the chat message to the Firestore database
+ chatMessagesRef.add(chatMessage);
 
 
-  window.addEventListener("scroll", () => {
+
+ // Clear the message input
+
+ document.getElementById("message").value = "";
+
+
+
+ window.addEventListener("scroll", () => {
  const chatMessagesElement = document.getElementById("chat-messages");
 
  chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
 
 });
 
-   
+  
 
  });
 
