@@ -1,77 +1,60 @@
-// Create a reference to the chat-messages collection
+// Replace with your Firebase configuration
+const firebaseConfig = {
+  // ...
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to Firestore
+const db = firebase.firestore();
+
+// Create a reference to the chat messages collection
 const chatMessagesRef = db.collection("chat-messages");
 
-// Create a query to get all chat messages, ordered by created_at in descending order
-const chatMessagesQuery = chatMessagesRef.orderBy("created_at", "desc");
+const usernameInput = document.getElementById("username");
+const joinChatButton = document.getElementById("join-chat");
+const chatMessagesElement = document.getElementById("chat-messages");
+const messageInput = document.getElementById("message");
+const sendMessageButton = document.getElementById("send-message");
 
-// Create an array to store the chat messages
-const chatMessages = [];
+let username = "";
 
-// Listen for new chat messages
-chatMessagesQuery.onSnapshot((snapshot) => {
-// Get the changes that occurred since the last snapshot
-const changes = snapshot.docChanges();
-
-// Loop through the changes
-for (const change of changes) {
-// Get the message document from the change
-const message = change.doc;
-
-// Check the type of the change
-switch (change.type) {
-  case "added":
-    // If a new message was added, insert it at the beginning of the chat messages array
-    chatMessages.unshift(message);
-    break;
-  case "modified":
-    // If a message was modified, find its index in the chat messages array and replace it with the updated message
-    const index = chatMessages.findIndex((m) => m.id === message.id);
-    if (index !== -1) {
-      chatMessages[index] = message;
-    }
-    break;
-  case "removed":
-    // If a message was removed, find its index in the chat messages array and remove it
-    const index = chatMessages.findIndex((m) => m.id === message.id);
-    if (index !== -1) {
-      chatMessages.splice(index, 1);
-    }
-    break;
-  default:
-    // Do nothing if the change type is not recognized
-    break;
-}
-
-
-
-
-// Display the messages
-displayMessages();
+joinChatButton.addEventListener("click", () => {
+  username = usernameInput.value;
+  if (username) {
+    // Hide username input and join chat button
+    usernameInput.style.display = "none";
+    joinChatButton.style.display = "none";
+  }
 });
 
-function displayMessages() {
-// Clear the chat messages element
-chatMessagesElement.innerHTML = "";
+sendMessageButton.addEventListener("click", () => {
+  const message = messageInput.value;
+  if (message && username) {
+    chatMessagesRef.add({
+      username,
+      message,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    messageInput.value = "";
+  }
+});
 
-// Add the chat messages from the array to the chat messages element
-for (const message of chatMessages) {
-// Create a new chat message element
-const chatMessageElement = document.createElement("div");
-chatMessageElement.classList.add("chat-message");
+chatMessagesRef.orderBy("timestamp").onSnapshot((snapshot) => {
+  const messages = [];
+  snapshot.forEach((doc) => {
+    messages.push({ ...doc.data(), id: doc.id });
+  });
+  displayMessages(messages);
+});
 
-// Set the chat message element's text
-chatMessageElement.textContent = `${message.data().username}: ${message.data().message}`;
-
-// Add the chat message element to the chat messages element
-chatMessagesElement.appendChild(chatMessageElement);
+function displayMessages(messages) {
+  chatMessagesElement.innerHTML = "";
+  messages.forEach((message) => {
+    const messageElement = document.createElement("div");
+    messageElement.textContent = `${message.username}: ${message.message}`;
+    chatMessagesElement.appendChild(messageElement);
+  });
+  chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
 }
-
-// Scroll to the bottom of the chat messages element
-chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
-}
-
-// Display the messages when the page loads
-displayMessages();
-
-
-
