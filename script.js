@@ -37,6 +37,23 @@ joinChatButton.addEventListener('click', (event) => {
 
 sendMessageButton.addEventListener('click', () => {
   const message = messageInput.value;
+  if (message) {
+    console.log('Sending message:', message);
+    messagesRef.add({
+      text: message,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+      console.log('Message sent successfully');
+      messageInput.value = '';
+    })
+    .catch(error => {
+      console.error('Error writing new message', error);
+    });
+  }
+});
+ sendMessageButton.addEventListener('click', () => {
+  const message = messageInput.value;
   if (message && username) {
     messagesRef.add({
       username,
