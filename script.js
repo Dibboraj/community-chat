@@ -1,6 +1,12 @@
 // Replace with your Firebase configuration
 const firebaseConfig = {
-  // ...
+  apiKey: "AIzaSyAIn4ZYNOx7SIyUPSOF33Oo7JqiQv03eoo",
+  authDomain: "webxchatd.firebaseapp.com",
+  projectId: "webxchatd",
+  storageBucket: "webxchatd.appspot.com",
+  messagingSenderId: "162184174166",
+  appId: "1:162184174166:web:33b5a740bcf9006d5639f7",
+  measurementId: "G-4FYVT0Z4VD"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -12,43 +18,17 @@ const messageInput = document.getElementById('message');
 const sendMessageButton = document.getElementById('send-message');
 const chatMessagesElement = document.getElementById('chat-messages');
 
-let username = '';
-
-const joinChatForm = document.createElement('form');
-const usernameInput = document.createElement('input');
-const joinChatButton = document.createElement('button');
-
-joinChatForm.appendChild(usernameInput);
-joinChatForm.appendChild(joinChatButton);
-chatMessagesElement.appendChild(joinChatForm);
-
-usernameInput.type = 'text';
-usernameInput.placeholder = 'Enter your username';
-joinChatButton.textContent = 'Join Chat';
-
-joinChatButton.addEventListener('click', (event) => {
-  event.preventDefault();
-  username = usernameInput.value;
-  if (username) {
-    joinChatForm.remove();
-    // ... rest of your code
-  }
-});
-
 sendMessageButton.addEventListener('click', () => {
   const message = messageInput.value;
-  if (message && username) {
-    console.log('Sending message:', message);
+  if (message) {
     messagesRef.add({
-      username,
       text: message,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
     .then(() => {
-      console.log('Message sent successfully');
       messageInput.value = '';
     })
-    .catch((error) => {
+    .catch(error => {
       console.error('Error writing new message', error);
     });
   }
@@ -66,7 +46,7 @@ function displayMessages(messages) {
   chatMessagesElement.innerHTML = '';
   messages.forEach(message => {
     const messageElement = document.createElement('div');
-    messageElement.textContent = `${message.username}: ${message.text}`;
+    messageElement.textContent = message.text;
     chatMessagesElement.appendChild(messageElement);
   });
   chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
