@@ -1,63 +1,20 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
+  <title>Public Chat</title>
+  <meta charset="UTF-8">
+  <script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore-compat.js"></script>
+  <script src="script.js"></script>
+ <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
- <title>WEBXCHAT-The greatest Community chat you've ever seen!</title>
-
- <meta charset="utf-8">
-
- <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
- <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-</head>
-
-
-
-<body>
-
- <h1>WEBXCHAT-D2R</h1>
-
- <marquee>Please don't use fake names! It's a request from a noob programmer!!! Please.....</marquee>
-
-
-
- <input type="text" id="username" placeholder="Enter your username">
-
- <button id="join-chat">Join Chat</button>
-
-
-
- <div id="chat-messages"></div>
-
-
-
- <input type="text" id="message" placeholder="Enter your message">
-
- <button id="send-message">Send Message</button>
-
-<script src="display-messages.js"></script>
-
-<script type="module">
-
- // Import the functions you need from the SDKs you need
-
- import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app-compat.js";
-
- import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore-compat.js";
-
- // TODO: Add SDKs for Firebase products that you want to use
-
- // https://firebase.google.com/docs/web/setup#available-libraries
-
-
-
- // Your web app's Firebase configuration
-
- // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyAeDub4lzMIfUxLlIHosFdKtT3T8n5hwT8",
     authDomain: "d2r-chat.firebaseapp.com",
@@ -69,110 +26,16 @@
     measurementId: "G-HXZ5MDL0T5"
   };
 
- firebase.initializeApp(firebaseConfig);
-
- // Get the Firestore database
- const db = firebase.firestore();
-
- // Create a reference to the chat messages collection
- const chatMessagesRef = db.collection("chat-messages");
-
- // Listen for new chat messages
- chatMessagesRef.onSnapshot((snapshot) => {
- // Get the new chat messages
- const newChatMessages = snapshot.docs;
- // Update the chat messages element with the new chat messages
- const chatMessagesElement = document.getElementById("chat-messages");
- chatMessagesElement.innerHTML = "";
- for (const newChatMessage of newChatMessages) {
- // Create a new chat message element
- const chatMessageElement = document.createElement("div");
- chatMessageElement.classList.add("chat-message");
-
- // Set the chat message element's text
- chatMessageElement.textContent = `${newChatMessage.data().username}: ${newChatMessage.data().message}`;
-
-
-
- // Add the chat message element to the chat messages element
-
- chatMessagesElement.appendChild(chatMessageElement);
-
- }
-
- });
-
-
-
- // Join the chat
-
- document.getElementById("join-chat").addEventListener("click", () => {
-
- const username = document.getElementById("username").value;
-
-
-
- // Create a new chat message
-
- const chatMessage = {
-
- username,
-
- message: "Entered into the chat"
-
- };
-
-
-
- // Send the chat message to the Firestore database
-
- chatMessagesRef.add(chatMessage);
-
- });
-
-
-
- // Send a message
-
- document.getElementById("send-message").addEventListener("click", () => {
-
- const message = document.getElementById("message").value;
-
-
-
- // Create a new chat message
- const chatMessage = {
- username: document.getElementById("username").value,
- message
-
- };
-
-
-
- // Send the chat message to the Firestore database
- chatMessagesRef.add(chatMessage);
-
-
-
- // Clear the message input
-
- document.getElementById("message").value = "";
-
-
-
- window.addEventListener("scroll", () => {
- const chatMessagesElement = document.getElementById("chat-messages");
-
- chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
-
-});
-
-  
-
- });
-
- </script>
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</head>
+<body>
+  <h1>Public Chat</h1>
+  <div id="chat-messages"></div>
+  <input type="text" id="message" placeholder="Enter your message">
+  <button id="send-message">Send</button>
 
 </body>
-
 </html>
