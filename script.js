@@ -18,19 +18,32 @@ const messageInput = document.getElementById('message');
 const sendMessageButton = document.getElementById('send-message');
 const chatMessagesElement = document.getElementById('chat-messages');
 
+function sendMessage(message) {
+  messagesRef.add({
+    text: message,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(() => {
+    messageInput.value = '';
+  })
+  .catch(error => {
+    console.error('Error writing new message', error);
+  });
+}
+
 sendMessageButton.addEventListener('click', () => {
   const message = messageInput.value;
   if (message) {
-    messagesRef.add({
-      text: message,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-      messageInput.value = '';
-    })
-    .catch(error => {
-      console.error('Error writing new message', error);
-    });
+    sendMessage(message);
+  }
+});
+
+messageInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    const message = messageInput.value;
+    if (message) {
+      sendMessage(message);
+    }
   }
 });
 
