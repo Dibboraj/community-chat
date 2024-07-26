@@ -1,36 +1,27 @@
 const chatMessagesElement = document.getElementById("chat-messages");
 
-// Create an array to store the chat messages
-const chatMessages = [];
-
-// Listen for new chat messages
-chatMessagesRef.onSnapshot((snapshot) => {
-  // Get the new chat messages
-  const newChatMessages = snapshot.docs;
-
-  // Add the new chat messages to the chat messages array
-  chatMessages.push(...newChatMessages);
-});
-
 function displayMessages() {
-  // Clear the chat messages element
-  chatMessagesElement.innerHTML = "";
+  // Get the chat messages document
+  const chatMessagesRef = db.collection("chat-messages").doc("all-messages");
 
-  // Add the chat messages from the array to the chat messages element
-  for (const message of chatMessages) {
-    // Create a new chat message element
-    const chatMessageElement = document.createElement("div");
-    chatMessageElement.classList.add("chat-message");
+  // Get the messages from the chat messages document
+  chatMessagesRef.get().then((doc) => {
+    const messages = doc.data().messages;
 
-    // Set the chat message element's text
-    chatMessageElement.textContent = `${message.data().username}: ${message.data().message}`;
+    chatMessagesElement.innerHTML = "";
 
-    // Add the chat message element to the chat messages element
-    chatMessagesElement.appendChild(chatMessageElement);
-  }
+    for (const message of messages) {
+      // Create a new chat message element
+      const chatMessageElement = document.createElement("div");
+      chatMessageElement.classList.add("chat-message");
 
-  // Scroll to the bottom of the chat messages element
-  chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
+      // Set the chat message element's text
+      chatMessageElement.textContent = `${message.username}: ${message.message}`;
+
+      // Add the chat message element to the chat messages element
+      chatMessagesElement.appendChild(chatMessageElement);
+    }
+  });
 }
 
 // Display the messages when the page loads
@@ -43,7 +34,6 @@ chatMessagesRef.onSnapshot(displayMessages);
 document.getElementById("join-chat").addEventListener("click", () => {
   // ...
 
-  // Display the messages
   displayMessages();
 });
 
@@ -51,6 +41,5 @@ document.getElementById("join-chat").addEventListener("click", () => {
 document.getElementById("send-message").addEventListener("click", () => {
   // ...
 
-  // Display the messages
   displayMessages();
 });
