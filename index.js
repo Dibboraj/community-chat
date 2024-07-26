@@ -1,13 +1,13 @@
-// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAIn4ZYNOx7SIyUPSOF33Oo7JqiQv03eoo",
-  authDomain: "webxchatd.firebaseapp.com",
-  databaseURL: "https://webxchatd-default-rtdb.firebaseio.com",
-  projectId: "webxchatd",
-  storageBucket: "webxchatd.appspot.com",
-  messagingSenderId: "162184174166",
-  appId: "1:162184174166:web:33b5a740bcf9006d5639f7",
-  measurementId: "G-4FYVT0Z4VD"
+  apiKey: "AIzaSyAeDub4lzMIfUxLlIHosFdKtT3T8n5hwT8",
+  authDomain: "d2r-chat.firebaseapp.com",
+  databaseURL: "https://d2r-chat-default-rtdb.firebaseio.com",
+  projectId: "d2r-chat",
+  storageBucket: "d2r-chat.appspot.com",
+  messagingSenderId: "206966326191",
+  appId: "1:206966326191:web:06472961563a70f099655a",
+  measurementId: "G-HXZ5MDL0T5"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
